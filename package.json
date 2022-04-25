@@ -1,7 +1,8 @@
 {
-  "name": "memorymap",
+  "name": "devancer",
   "version": "1.0.0",
   "dependencies": {
+    "@adyen/api-library": "^10.1.0",
     "aws-sdk": "^2.1101.0",
     "body-parser": "^1.19.1",
     "busboy-body-parser": "^0.3.2",
