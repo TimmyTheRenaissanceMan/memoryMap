@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { FileUploader } from "react-drag-drop-files";
 import { CSSTransition } from "react-transition-group";
+import store from "../../store";
 
 function NavMenu(props) {
   const [activeMenu, setActiveMenu] = useState("main");
@@ -29,10 +30,40 @@ function NavMenu(props) {
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
   }, []);
 
-  function calcHeight(el) {
+  const calcHeight = (el) => {
     const height = el.offsetHeight;
     setMenuHeight(height);
   }
+
+  const submitData = async(form, type) => {
+      form.preventDefault();
+      console.log(store.getState().marker)
+    const textInput = {
+        message: type==="text" ? form.target[0].value : "",
+        name: type==="text" ? form.target[1].value : form.target[0].value,
+        location: type==="text" ? form.target[2].value : form.target[1].value,
+        type: type,
+        lat: store.getState().marker.lat,
+        lng: store.getState().marker.lng
+    }
+
+    const request = new FormData()
+    request.append("file", file[0])
+
+    fetch("/api/marker", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        data: JSON.stringify({textInput}),
+      },
+      body: request,
+  
+    });
+
+    
+  }
+
+
 
   function DropdownItem(props) {
     return (
@@ -102,6 +133,7 @@ function NavMenu(props) {
               <span className="fontMath me-3">{"<"}</span>Add Text
             </p>
           </DropdownItem>
+          <Form onSubmit={(e)=>submitData(e, "text")}>
           <Form.Control
             placeholder="Type you message..."
             as="textarea"
@@ -110,6 +142,8 @@ function NavMenu(props) {
           />
           <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
           <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
+          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          </Form>
         </div>
       </CSSTransition>
 
@@ -137,8 +171,11 @@ function NavMenu(props) {
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
           </div>
+          <Form onSubmit={(e)=>submitData(e, "image")}>
           <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
           <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
+          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          </Form>
         </div>
       </CSSTransition>
 
@@ -166,8 +203,11 @@ function NavMenu(props) {
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
           </div>
+          <Form onSubmit={(e)=>submitData(e, "audio")}>
           <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
           <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
+          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          </Form>
         </div>
       </CSSTransition>
     </div>

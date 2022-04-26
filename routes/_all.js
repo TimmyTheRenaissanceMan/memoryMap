@@ -1,17 +1,110 @@
 //jshint esversion:9
 const path = require("path");
+const Marker = require("../schemas/marker");
+const aws = require('aws-sdk');
 
 module.exports = (function(app) {
 
-app.get("/api/home", (req, res) => {
-  res.json({data: "Connection established"});
+app.get("/api/marker", async (req, res) => {
+  markers = await Marker.find({});
+  res.json(markers);
 });
 
-app.get("/api/system_messages", async (req, res) => {
-  const system_messages = await System_message.find({
-    active: true
-  }).exec();
-  res.send(system_messages);
+app.post("/api/marker", async (req, res) => {
+  let s3bucket;
+  const s3 = new aws.S3();
+
+  const data = JSON.parse(req.headers.data).textInput
+  console.log(req.files)
+  switch(data.type){
+    case "text":
+      Marker.create({
+        lat: data.lat,
+        lng: data.lng,
+        name: data.name,
+        location: data.location,
+        message: data.message
+      }).then()
+      break;
+    case "image":
+
+      // Marker.create({
+      //   lat: data.lat,
+      //   lng: data.lng,
+      //   name: data.name,
+      //   location: data.location,
+      // }, (err, docs) => {
+        
+
+          s3bucket = new aws.S3({
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          Bucket: process.env.S3_BUCKET,
+          ContentType: file.mimetype,
+          ACL: 'public-read'
+        });
+  
+        var params = {
+          Bucket: process.env.S3_BUCKET,
+          Key: "productImages/" + file.name,
+          Body: file.data,
+          ContentType: file.mimetype,
+          ACL: 'public-read'
+        };
+        s3bucket.upload(params, function(err, data) {
+          if (err) {
+            console.log('error in callback');
+            console.log(err);
+            res.json({error: err});
+          }
+          console.log('success');
+          res.json({
+            url: data.Location
+          });
+        });
+      // })
+      break;
+    case "audio":
+      // Marker.create({
+      //   lat: data.lat,
+      //   lng: data.lng,
+      //   name: data.name,
+      //   location: data.location,
+      // }, (err, docs) => {
+
+        s3bucket = new aws.S3({
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          Bucket: process.env.S3_BUCKET,
+          ContentType: file.mimetype,
+          ACL: 'public-read'
+        });
+  
+        var params = {
+          Bucket: process.env.S3_BUCKET,
+          Key: "productImages/" + file.name,
+          Body: file.data,
+          ContentType: file.mimetype,
+          ACL: 'public-read'
+        };
+        s3bucket.upload(params, function(err, data) {
+          if (err) {
+            console.log('error in callback');
+            console.log(err);
+            res.json({error: err});
+          }
+          console.log('success');
+          res.json({
+            url: data.Location
+          });
+        });
+      // })
+      break;
+
+  }
+
+  console.log(req.body);
+  console.log(req.headers.data);
 });
 
 

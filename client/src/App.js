@@ -5,6 +5,7 @@ import "./App.css"
 import Header from './components/partials/header';
 import Footer from './components/partials/footer';
 import Home from './routes/Home';
+import List from './routes/List';
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -24,6 +25,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/list" element={<List />} />
       </Routes>
     </Router>
     </div>

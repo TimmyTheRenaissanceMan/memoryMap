@@ -46,11 +46,6 @@ const https = require("https");
 const http = require("http");
 const server = http.createServer(app);
 
-// app.use(function(err, req, res, next) {
-//     req.io = io;
-//     next();
-// });
-
 app.use(session({
   secret: "Our little secret.",
   resave: true,
@@ -82,11 +77,10 @@ const User = require("./schemas/user");
     extended: true,
     parameterLimit:50000
   }));
-// const chat_sockets = require("./modules/socket/chat_sockets");
+
  require("./config/passport")(passport);
  require("./config/database");
- //generateSitemap();
-// require("./schemas/_all");
+
 require("./routes/_all")(app);
 
 server.listen(process.env.PORT || 5000, (req, res) =>{
