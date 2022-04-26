@@ -81,6 +81,15 @@
   font-size: 26px;
 }
 
+.bold900{
+  font-weight: 900;
+}
+
+.darkBlueText{
+  color: #14213D !important;
+}
+
+
 .addMarker{
   font-family:'Courier New', Courier, monospace;
   height: 60px;
@@ -92,6 +101,7 @@
   position: relative;
   border-radius: 50%;
   vertical-align: middle;
+  cursor: pointer;
 }
 .addMarkerText{
   display:block;
@@ -111,7 +121,9 @@
  color: white; 
  border: none;
  width: 100%;
- font-weight: 900;
+ font-weight: 400;
+ font-size: 26px;
+ padding: 0;
 }
 .menuButton:hover{
   background-color: #29447e;
@@ -124,6 +136,22 @@
   -webkit-box-shadow: none;
  }
 
+ .fontMontserrat{
+  font-family: 'Montserrat', sans-serif;
+ }
+
+ .fontMath{
+  font-family: "math";
+ }
+
+ .menuBackButton{
+   color: black;
+   cursor: pointer;
+ }
+
+ .menuBackButton:hover{
+   color: #29447e;
+ }
 
 
 /* SIDE NAVBAR */
@@ -134,7 +162,7 @@
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 3 !important; /* Stay on top */
+  z-index: 1 !important; /* Stay on top */
   top: 0; /* Stay at the top */
   right: 0;
   background-color: transparent; /* Black*/
@@ -147,63 +175,24 @@
   background-color: white;
   z-index: 1 !important;
 }
-.sidenavClose{
-  overflow: hidden;
-  background-color: black;
-  opacity: .3;
-  animation: sidenav-close 0.2s linear;
-  animation-fill-mode: forwards;
-}
-@keyframes sidenav-close{
-  from { opacity: .40}
-    to { opacity: .0}
-}
-.sidenavOpen{
-  overflow: hidden;
-  background-color: black;
-  opacity: .0;
-  animation: sidenav-open .2s linear .5s;
-  animation-fill-mode: forwards;
-}
-@keyframes sidenav-open{
-  from { opacity: 0}
-    to { opacity: .40}
-}
 
 /* The navigation menu links */
 .sidenav a {
   text-decoration: none;
-  font-size: 20px;
-  color: #818181;
   display: block;
   transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: black;
 }
 
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
   position: absolute;
   top: 0;
-  right: 10px;
-  font-size: 36px;
-  margin-left: 50px;
+  right: 0;
+  font-size: 26px;
+  font-family:'Courier New', Courier, monospace;
+  cursor: pointer;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-  transition: margin-left .5s;
-  padding: 20px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
 
 :root{
   --speed: 500ms;

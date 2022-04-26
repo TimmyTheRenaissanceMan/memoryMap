@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { FileUploader } from "react-drag-drop-files";
 import { CSSTransition } from "react-transition-group";
 
-function NavMenu() {
+function NavMenu(props) {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(null);
   const dropdownRef = useRef(null);
@@ -58,7 +58,11 @@ function NavMenu() {
   }
 
   return (
-    <div className="dropdown" style={{ height: menuHeight }} ref={dropdownRef}>
+    <div
+      className="dropdown fontPassionOne"
+      style={{ height: menuHeight }}
+      ref={dropdownRef}
+    >
       <CSSTransition
         in={activeMenu === "main"}
         timeout={500}
@@ -67,6 +71,10 @@ function NavMenu() {
         onEnter={calcHeight}
       >
         <div className="menu">
+          <p className="fs26 fontPassionOne text-start">Add a Pin</p>
+          <a className="closebtn" onClick={props.closeNav}>
+            &times;
+          </a>
           <DropdownItem goToMenu="addText">
             <Button className="menuButton">Add Text</Button>
           </DropdownItem>
@@ -89,13 +97,19 @@ function NavMenu() {
         onEnter={calcHeight}
       >
         <div className="menu">
+          <DropdownItem goToMenu="main">
+            <p className="fs26 fontPassionOne text-start menuBackButton">
+              <span className="fontMath me-3">{"<"}</span>Add Text
+            </p>
+          </DropdownItem>
           <Form.Control
             placeholder="Type you message..."
             as="textarea"
             rows={12}
+            className="fontMontserrat"
           />
-          <Form.Control placeholder="Name" type="text" />
-          <Form.Control placeholder="Name" type="text" />
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
         </div>
       </CSSTransition>
 
@@ -107,6 +121,12 @@ function NavMenu() {
         onEnter={calcHeight}
       >
         <div className="menu">
+          <DropdownItem goToMenu="main">
+            <p className="fs26 fontPassionOne text-start menuBackButton">
+              <span className="fontMath me-3">{"<"}</span>Add Image
+            </p>
+          </DropdownItem>
+          <div className="mt-3">
             <FileUploader
               multiple={true}
               handleChange={handleChange}
@@ -116,8 +136,9 @@ function NavMenu() {
             <p>
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
-          <Form.Control placeholder="Name" type="text" />
-          <Form.Control placeholder="Name" type="text" />
+          </div>
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
         </div>
       </CSSTransition>
 
@@ -129,6 +150,12 @@ function NavMenu() {
         onEnter={calcHeight}
       >
         <div className="menu">
+          <DropdownItem goToMenu="main">
+            <p className="fs26 fontPassionOne text-start menuBackButton">
+              <span className="fontMath me-3">{"<"}</span>Add Audio
+            </p>
+          </DropdownItem>
+          <div className="mt-3">
             <FileUploader
               multiple={true}
               handleChange={handleChange}
@@ -138,8 +165,9 @@ function NavMenu() {
             <p>
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
-          <Form.Control placeholder="Name" type="text" />
-          <Form.Control placeholder="Name" type="text" />
+          </div>
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
+          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
         </div>
       </CSSTransition>
     </div>

@@ -36,7 +36,8 @@ const StoreLocations = () => {
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
-  return (<GoogleMap
+  return (
+  <GoogleMap
             id="map"
             mapContainerStyle={{
               width: "100%",
