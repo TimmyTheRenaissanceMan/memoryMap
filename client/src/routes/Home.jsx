@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import mapStyles from "../components/map/mapStyles";
-import store from "../store"
+import store from "../store";
 
 const libraries = ["places"];
 const options = {
@@ -15,40 +15,65 @@ const options = {
   zoomControl: true,
 };
 const MemoryMap = () => {
-  const s3URL = "https://timur-dev-test.s3.ca-central-1.amazonaws.com/";
+  const s3URL = process.env.REACT_APP_S3_URL;
+
+  /* Map zoom => can be turned into a const 
+  if there are no zoom effects/manipulations (e.g. zoom in marker on click) */
   const [zoom, setZoom] = useState(12);
+
+  // New marker is set on map click. New marker is removed when clicked on
   const [newMarker, setNewMarker] = useState();
+
+  // Array of all markers
   const [markers, setMarkers] = useState([]);
+
+  //Google maps state
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
   });
+
+  /* Selected marker. When marker is clicked, "selected" holds marker data and
+  renders a tooltip */
   const [selected, setSelected] = useState(null);
+
+  // Default map center coordinates
   const [mapCenter, setMapCenter] = useState({
     lat: 43.6532,
     lng: -79.3832,
   });
 
+  /* Map ref is used to check if the map is ready/loaded. Can also be used for 
+  map view manipulations */
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
   }, []);
 
+  // Listen to the store => if changes add marker data from store to all markers
+  store.subscribe(() => {
+    if (
+      store.getState().markerData._id &&
+      !markers.includes(store.getState().markerData)
+    ) {
+      setMarkers([...markers, store.getState().markerData]);
+      setNewMarker();
+    }
+  });
+
+  // Store new marker on map click
   const handleMapClick = (event) => {
-    console.log(event);
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
     store.dispatch({
       type: "saveMarker",
       payload: {
         lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      }
-    })
-
+        lng: event.latLng.lng(),
+      },
+    });
     setNewMarker({ lat: event.latLng.lat(), lng: event.latLng.lng() });
   };
 
+  // Get markers data
   const getMarkers = async () => {
     const response = await fetch("/api/marker", {
       method: "GET",
@@ -90,12 +115,20 @@ const MemoryMap = () => {
           : console.log("map is loading");
       }}
     >
+      {/* Add/Remove new marker */}
       {newMarker ? (
         <Marker
           key={`${newMarker.lat}-${newMarker.lng}`}
           position={{ lat: newMarker.lat, lng: newMarker.lng }}
           onClick={() => {
             setNewMarker();
+            store.dispatch({
+              type: "saveMarker",
+              payload: {
+                lat: 0,
+                lng: 0,
+              },
+            });
           }}
           icon={{
             url: `newMarker.svg`,
@@ -107,7 +140,7 @@ const MemoryMap = () => {
       ) : (
         ""
       )}
-
+      {/* Add all markers to the map */}
       {markers.map((marker) => (
         <Marker
           key={`${marker.lat}-${marker.lng}`}
@@ -125,6 +158,7 @@ const MemoryMap = () => {
         />
       ))}
 
+      {/* Open a selected marker tooltip */}
       {selected ? (
         <InfoWindow
           position={{ lat: selected.lat, lng: selected.lng }}
@@ -138,11 +172,13 @@ const MemoryMap = () => {
             </p>
             <hr />
             <p className="text-start">{selected.message}</p>
+            {/* Add image if marker.image === true */}
             {selected.image ? (
-              <img src={s3URL + "images/" + selected._id} alt="img" />
+              <img src={s3URL + "image/" + selected._id} alt="img" />
             ) : (
               ""
             )}
+            {/* Add audio if marker.audio === true */}
             {selected.audio ? (
               <audio controls>
                 <source src={s3URL + "audio/" + selected._id} />

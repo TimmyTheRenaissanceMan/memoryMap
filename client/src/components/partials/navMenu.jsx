@@ -8,62 +8,76 @@ function NavMenu(props) {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(null);
   const dropdownRef = useRef(null);
-  const [classType, setClassType] = useState("");
 
   const [file, setFile] = useState(null);
   const handleChange = (file) => {
     setFile(file);
   };
 
+  //   Image extensions for FileUploader
   const imageExtensions = ["JPEG", "PNG", "GIF"];
 
+  //   Audio extensions for FileUploader
   const audioExtensions = ["MP3"];
-
-  const handleMiddleShift = (direction) => {
-    direction == "back"
-      ? setClassType("menu-primary")
-      : setClassType("menuSecondary");
-  };
 
   useEffect(() => {
     const height = dropdownRef.current?.firstChild.offsetHeight;
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
   }, []);
 
+  //   Menu styling adjustment
   const calcHeight = (el) => {
     const height = el.offsetHeight;
     setMenuHeight(height);
-  }
+  };
 
-  const submitData = async(form, type) => {
-      form.preventDefault();
-      console.log(store.getState().marker)
+  //  Send data to the server
+  const submitData = async (form, type) => {
+    form.preventDefault();
+    setActiveMenu("main");
+    props.closeNav();
     const textInput = {
-        message: type==="text" ? form.target[0].value : "",
-        name: type==="text" ? form.target[1].value : form.target[0].value,
-        location: type==="text" ? form.target[2].value : form.target[1].value,
-        type: type,
-        lat: store.getState().marker.lat,
-        lng: store.getState().marker.lng
+      message: type === "text" ? form.target[0].value : "",
+      name: type === "text" ? form.target[1].value : form.target[0].value,
+      location: type === "text" ? form.target[2].value : form.target[1].value,
+      type: type,
+      lat: store.getState().marker.lat,
+      lng: store.getState().marker.lng,
+    };
+    const request = new FormData();
+    if (type !== "text") {
+      request.append("file", file[0]);
     }
-
-    const request = new FormData()
-    request.append("file", file[0])
-
-    fetch("/api/marker", {
+    const response = await fetch("/api/marker", {
       method: "POST",
       headers: {
         Accept: "application/json",
-        data: JSON.stringify({textInput}),
+        data: JSON.stringify({ textInput }),
       },
       body: request,
-  
     });
-
-    
-  }
-
-
+    const data = await response.json();
+    // Delete new marker from store
+    // Pass marker data to maps and push to all markers
+    if (data) {
+      store.dispatch({
+        type: "addMarkerToAll",
+        payload: {
+          ...textInput,
+          image: type === "image" ? true : false,
+          audio: type === "audio" ? true : false,
+          _id: data._id,
+        },
+      });
+      store.dispatch({
+        type: "saveMarker",
+        payload: {
+          lat: 0,
+          lng: 0,
+        },
+      });
+    }
+  };
 
   function DropdownItem(props) {
     return (
@@ -71,14 +85,7 @@ function NavMenu(props) {
         href={props.href}
         className="menu-item"
         onClick={() => {
-          if (props.goToMenu == "main") {
-            setClassType("menu-secondary", setActiveMenu(props.goToMenu));
-          } else if (props.toThirdMenu) {
-            console.log("here");
-            setClassType("menu-primary", setActiveMenu(props.goToMenu));
-          } else {
-            props.goToMenu && setActiveMenu(props.goToMenu);
-          }
+          props.goToMenu && setActiveMenu(props.goToMenu);
         }}
       >
         <span className="icon-button">{props.leftIcon}</span>
@@ -133,16 +140,26 @@ function NavMenu(props) {
               <span className="fontMath me-3">{"<"}</span>Add Text
             </p>
           </DropdownItem>
-          <Form onSubmit={(e)=>submitData(e, "text")}>
-          <Form.Control
-            placeholder="Type you message..."
-            as="textarea"
-            rows={12}
-            className="fontMontserrat"
-          />
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
-          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          <Form onSubmit={(e) => submitData(e, "text")}>
+            <Form.Control
+              placeholder="Type you message..."
+              as="textarea"
+              rows={12}
+              className="fontMontserrat"
+            />
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Name"
+              type="text"
+            />
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Location"
+              type="text"
+            />
+            <Button type="submit" className="menuButton mt-3">
+              Submit
+            </Button>
           </Form>
         </div>
       </CSSTransition>
@@ -171,10 +188,20 @@ function NavMenu(props) {
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
           </div>
-          <Form onSubmit={(e)=>submitData(e, "image")}>
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
-          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          <Form onSubmit={(e) => submitData(e, "image")}>
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Name"
+              type="text"
+            />
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Location"
+              type="text"
+            />
+            <Button type="submit" className="menuButton mt-3">
+              Submit
+            </Button>
           </Form>
         </div>
       </CSSTransition>
@@ -203,10 +230,20 @@ function NavMenu(props) {
               {file ? `File name: ${file[0].name}` : "no files uploaded yet"}
             </p>
           </div>
-          <Form onSubmit={(e)=>submitData(e, "audio")}>
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Name" type="text" />
-          <Form.Control className="mt-3 fontMontserrat" placeholder="Location" type="text" />
-          <Button type="submit" className="menuButton mt-3">Submit</Button>
+          <Form onSubmit={(e) => submitData(e, "audio")}>
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Name"
+              type="text"
+            />
+            <Form.Control
+              className="mt-3 fontMontserrat"
+              placeholder="Location"
+              type="text"
+            />
+            <Button type="submit" className="menuButton mt-3">
+              Submit
+            </Button>
           </Form>
         </div>
       </CSSTransition>

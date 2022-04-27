@@ -1,9 +1,11 @@
 export default function reducer(
   state = {
-   marker:{
-     lat: 0,
-     lng: 0
-   }
+    marker: {
+      lat: 0,
+      lng: 0,
+    },
+    markerData:{
+    }
   },
   action
 ) {
@@ -11,12 +13,17 @@ export default function reducer(
     case "saveMarker":
       return {
         ...state,
-        marker:{
+        marker: {
           lat: action.payload.lat,
-          lng: action.payload.lng
-        }
+          lng: action.payload.lng,
+        },
+      };
+    case "addMarkerToAll":
+      return {
+        ...state,
+        markerData: action.payload,
       };
     default:
-      return state
+      return state;
   }
 }

@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Container, Row, Col, NavItem, Nav } from "react-bootstrap";
 import NavMenu from "./navMenu";
+import store from "../../store";
 
 function Header(props) {
+  // Side nav class => class comes with animation => onchage opens/closes side nav bar
+  const [sideNavClass, setSideNavClass] = useState("");
+
+  //Screen width state
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [screenType, setScreenType] = useState();
 
+  /* Listen to screen width changes that are passed from App.js => 
+  adjust screen width state => adjust screen width type            */
   function reportWindowSize() {
-    if (window.innerWidth > 795 && screenType == "mobile") {
+    if (window.innerWidth > 795 && screenType === "mobile") {
       setScreenType("full");
-    } else if (window.innerWidth <= 795 && screenType == "full") {
+    } else if (window.innerWidth <= 795 && screenType === "full") {
       setScreenType("mobile");
     }
   }
 
-  if (props.windowWidth != windowWidth) {
+  if (props.windowWidth !== windowWidth) {
     reportWindowSize();
     setWindowWidth(props.windowWidth);
   }
@@ -23,15 +30,20 @@ function Header(props) {
     window.innerWidth > 795 ? setScreenType("full") : setScreenType("mobile");
   }, []);
 
-  const [sideNavClass, setSideNavClass] = useState("");
-
+  /* Check if marker exists: */
+  /* No: alert the user*/ 
+  /* Yes: set the width of the side navigation to 104% (due to z-index distortion) and the left margin of the page content to 100% */
   function openNav() {
-    setSideNavClass("sidenavOpen");
+    if(store.getState().marker.lat !== 0 && store.getState().marker.lmg !== 0){
+      setSideNavClass("sidenavOpen");
     document.getElementById("main").style.marginLeft = "100%";
-    document.getElementById("mySidenav").style.width = "100%";
+    document.getElementById("mySidenav").style.width = "104%";
+    } else {
+      window.alert("Please place a marker by click on the map")
+    }
   }
 
-  /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+  /* Set the width of the side navigation to 0 and the left margin of the page content to 0*/
   function closeNav() {
     setSideNavClass("sidenavClose");
     setTimeout(() => {
@@ -40,95 +52,60 @@ function Header(props) {
     }, 500);
   }
 
-  return window.location.pathname == "/" ?(
-   screenType == "full" ? (
-    <FullScreen
+  return window.location.pathname === "/" ? (
+    <MapHeader
+      screenType={screenType}
       openNav={openNav}
       closeNav={closeNav}
       sideNavClass={sideNavClass}
     />
   ) : (
-    <MobileScreen
-      openNav={openNav}
-      closeNav={closeNav}
-      sideNavClass={sideNavClass}
-    />
-  )
-  ) : 
-  (<AutoHeader />)
-}
-
-const FullScreen = (props) => {
-  return (
-    <div className="mapHeaderContainer" style={{ width: "100%" }}>
-      <Navbar className="p-3" style={{ padding: "0" }} bg="" expand="sm">
-        <Container>
-          <Navbar.Brand href="/" className="">
-            {" "}
-            <img src="./logo.png" className="brandLogo" />
-          </Navbar.Brand>
-          <Nav className="ms-auto">
-            <Nav.Link className="me-2" href="/">
-              Map
-            </Nav.Link>
-            <Nav.Link className="me-2" href="/list">
-              List
-            </Nav.Link>
-            <Nav.Link className="me-2" href="/">
-              About
-            </Nav.Link>
-            <Nav.Link className="me-5" href="/">
-              Contact
-            </Nav.Link>
-            <div className="addMarker" onClick={props.openNav}>
-              <div className="addMarkerText">+</div>
-            </div>
-          </Nav>
-        </Container>
-      </Navbar>
-
-      <Row id="mySidenav" className="sidenav">
-        <Col md="6" lg="7" xl="8"></Col>
-        <Col md="6" lg="5" xl="4" className="sidenavContent">
-          <Container>
-            <NavMenu closeNav={props.closeNav} />
-          </Container>
-        </Col>
-      </Row>
-      <div id="main" hidden></div>
-    </div>
+    <StandardHeader />
   );
-};
-
-const MobileScreen = (props) => {
+}
+// HEADER THAT IS USED ON HOME (MAP) PAGE
+const MapHeader = (props) => {
   return (
     <div className="mapHeaderContainer" style={{ width: "100%" }}>
-      <Navbar
-        className="p-3"
-        style={{ padding: "0", pointerEvents: "none" }}
-        bg=""
-        expand="lg"
-      >
-        <Container>
+      <Navbar style={{ padding: "0", pointerEvents: "none" }} bg="" expand="md">
+        <Container className="p-3">
           <Navbar.Brand href="/" className="">
             {" "}
-            <img src="./logo.png" className="brandLogo" />
+            <img src="./logo.png" alt="brandLogo" className="brandLogo" />
           </Navbar.Brand>
           <Nav className="ms-auto">
-            <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+            <Nav.Link
+              className={props.screenType === "full" ? "me-2" : ""}
+              href="/"
+              style={{ pointerEvents: "visible" }}
+            >
               Map
             </Nav.Link>
-            <Nav.Link href="/list" style={{ pointerEvents: "visible" }}>
+            <Nav.Link
+              className={props.screenType === "full" ? "me-2" : ""}
+              href="/list"
+              style={{ pointerEvents: "visible" }}
+            >
               List
             </Nav.Link>
-            <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+            <Nav.Link
+              className={props.screenType === "full" ? "me-2" : ""}
+              href="/"
+              style={{ pointerEvents: "visible" }}
+            >
               About
             </Nav.Link>
-            <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+            <Nav.Link
+              className={props.screenType === "full" ? "me-5" : ""}
+              href="/"
+              style={{ pointerEvents: "visible" }}
+            >
               Contact
             </Nav.Link>
             <div
-              className="addMarker mt-3"
+              className={
+                props.screenType === "full" ? "addMarker" : "addMarker mt-3"
+              }
               onClick={props.openNav}
               style={{ pointerEvents: "visible" }}
             >
@@ -139,8 +116,8 @@ const MobileScreen = (props) => {
       </Navbar>
 
       <Row id="mySidenav" className="sidenav">
-        <Col md="6" lg="7" xl="8"></Col>
-        <Col md="6" lg="5" xl="4" className="sidenavContent">
+        <Col md="6" lg="7" xl="8" xs="0"></Col>
+        <Col md="6" lg="5" xl="4" xs="12" className="sidenavContent">
           <Container>
             <NavMenu closeNav={props.closeNav} />
           </Container>
@@ -151,44 +128,43 @@ const MobileScreen = (props) => {
   );
 };
 
-// HEADER THAT'S USED ON ALL THE PAGES OTHER THAN MAP
-const AutoHeader = () => {
-
-  return  <div style={{ width: "100%" }}>
+// HEADER THAT'S USED ON ALL THE PAGES OTHER THAN HOME (MAP) PAGE
+const StandardHeader = () => {
+  return (
+    <div style={{ width: "100%" }}>
       <Navbar
-        className=" p-3 bg-white rounded"
+        className="p-3 bg-white rounded"
         style={{ padding: "0" }}
         bg="light"
         expand="sm"
       >
         <Container>
-        <Navbar.Brand href="/" className="">
+          <Navbar.Brand href="/" className="">
             {" "}
-            <img src="./logo.png" className="brandLogo" />
+            <img src="./logo.png" alt="brandLogo" className="brandLogo" />
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="ms-auto">
-
-          <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
-              Map
-            </Nav.Link>
-            <Nav.Link href="/list" style={{ pointerEvents: "visible" }}>
-              List
-            </Nav.Link>
-            <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
-              About
-            </Nav.Link>
-            <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
-              Contact
-            </Nav.Link>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto">
+              <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+                Map
+              </Nav.Link>
+              <Nav.Link href="/list" style={{ pointerEvents: "visible" }}>
+                List
+              </Nav.Link>
+              <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+                About
+              </Nav.Link>
+              <Nav.Link href="/" style={{ pointerEvents: "visible" }}>
+                Contact
+              </Nav.Link>
             </Nav>
-            </Navbar.Collapse>
-
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </div>
-}
+  );
+};
 
 export default Header;
