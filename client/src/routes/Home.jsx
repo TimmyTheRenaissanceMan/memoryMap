@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import mapStyles from "../components/map/mapStyles";
 import store from "../store";
+import AudioPlayer from '../components/audioPlayer/audioPlayer';
 
 const libraries = ["places"];
 const options = {
@@ -180,9 +181,12 @@ const MemoryMap = () => {
             )}
             {/* Add audio if marker.audio === true */}
             {selected.audio ? (
-              <audio controls>
+              <div>
+                <audio controls>
                 <source src={s3URL + "audio/" + selected._id} />
               </audio>
+              </div>
+
             ) : (
               ""
             )}
