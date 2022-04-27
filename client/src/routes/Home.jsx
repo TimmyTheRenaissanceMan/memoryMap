@@ -20,7 +20,7 @@ const MemoryMap = () => {
   const [newMarker, setNewMarker] = useState();
   const [markers, setMarkers] = useState([]);
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBKVoeXaPLrEj3eDRpHEoJkIcDm_5XhnwU",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
   });
   const [selected, setSelected] = useState(null);
