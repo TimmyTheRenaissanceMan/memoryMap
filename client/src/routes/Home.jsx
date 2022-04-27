@@ -7,7 +7,6 @@ import {
 } from "@react-google-maps/api";
 import mapStyles from "../components/map/mapStyles";
 import store from "../store";
-import AudioPlayer from '../components/audioPlayer/audioPlayer';
 
 const libraries = ["places"];
 const options = {
