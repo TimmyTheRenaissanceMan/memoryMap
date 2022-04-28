@@ -29,7 +29,7 @@ const MemoryMap = () => {
 
   //Google maps state
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBKVoeXaPLrEj3eDRpHEoJkIcDm_5XhnwU",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
   });
 
