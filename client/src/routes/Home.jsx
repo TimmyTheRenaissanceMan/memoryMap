@@ -182,10 +182,9 @@ const MemoryMap = () => {
             {selected.audio ? (
               <div>
                 <audio controls>
-                <source src={s3URL + "audio/" + selected._id} />
-              </audio>
+                  <source src={s3URL + "audio/" + selected._id} />
+                </audio>
               </div>
-
             ) : (
               ""
             )}
