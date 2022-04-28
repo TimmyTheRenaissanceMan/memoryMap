@@ -29,7 +29,7 @@ const MemoryMap = () => {
 
   //Google maps state
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+    googleMapsApiKey: "AIzaSyBKVoeXaPLrEj3eDRpHEoJkIcDm_5XhnwU",
     libraries,
   });
 
@@ -168,7 +168,7 @@ const MemoryMap = () => {
         >
           <div>
             <p className="bold900 text-start tooltipTitle">
-              {selected.location}
+              {selected.name}
             </p>
             <hr />
             <p className="text-start">{selected.message}</p>

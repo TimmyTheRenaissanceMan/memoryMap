@@ -39,99 +39,146 @@ export default [
   },
 
   {
-    featureType: "administrative",
-    stylers: [
+    "featureType": "administrative",
+    "stylers": [
       {
-        visibility: "simplified",
-      },
-    ],
+        "visibility": "simplified"
+      }
+    ]
   },
   {
-    featureType: "administrative",
-    elementType: "labels.icon",
-    stylers: [
+    "featureType": "administrative",
+    "elementType": "labels.icon",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "administrative",
-    elementType: "labels.text",
-    stylers: [
+    "featureType": "administrative",
+    "elementType": "labels.text",
+    "stylers": [
       {
-        visibility: "simplified",
-      },
-    ],
+        "visibility": "simplified"
+      }
+    ]
   },
   {
-    featureType: "administrative",
-    elementType: "labels.text.stroke",
-    stylers: [
+    "featureType": "administrative",
+    "elementType": "labels.text.stroke",
+    "stylers": [
       {
-        visibility: "simplified",
-      },
-    ],
+        "visibility": "simplified"
+      }
+    ]
   },
   {
-    featureType: "administrative.land_parcel",
-    stylers: [
+    "featureType": "administrative.land_parcel",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "administrative.neighborhood",
-    stylers: [
+    "featureType": "administrative.neighborhood",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "poi",
-    elementType: "labels.icon",
-    stylers: [
+    "featureType": "landscape",
+    "elementType": "labels",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "poi",
-    elementType: "labels.text",
-    stylers: [
+    "featureType": "landscape",
+    "elementType": "labels.icon",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [
+    "featureType": "poi",
+    "elementType": "labels.icon",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "transit",
-    elementType: "labels.icon",
-    stylers: [
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
   {
-    featureType: "water",
-    elementType: "labels.text",
-    stylers: [
+    "featureType": "road",
+    "elementType": "labels",
+    "stylers": [
       {
-        visibility: "off",
-      },
-    ],
+        "visibility": "off"
+      }
+    ]
   },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+  
+
 ];
