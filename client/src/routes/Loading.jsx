@@ -1,34 +1,41 @@
 import { useState, useEffect } from "react";
 import { propTypes } from "react-bootstrap/esm/Image";
-import ProgressBar from 'react-bootstrap/ProgressBar'
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 export default function Loading(props) {
   const [count, setCount] = useState(0);
 
   const progress = () => {
     let progress = 0;
-    setInterval(function() {
-        progress ++;
-         if(progress < 100) {
-            setCount(prev => ++prev);
-         } else {
-             setCount(100);
-             props.setLoaded(true);
-         }
- }, 50);
-  }
+    setInterval(function () {
+      progress++;
+      if (progress < 100 & count !== 99) {
+        setCount((prev) => ++prev);
+      } else {
+        setTimeout(() => {
+          setCount(100);
+        }, 1000);
+
+        props.setLoaded(true);
+      }
+    }, 50);
+  };
 
   useEffect(() => {
     progress();
-  }, [])
+  }, []);
 
   return (
     <div className="loadingScreen">
       <div className="text-center">
-        <img className="logoWhite text-center" src="./whiteLogo.png" alt="logo" />
+        <img
+          className="logoWhite text-center"
+          src="./whiteLogo.png"
+          alt="logo"
+        />
       </div>
       <div>
-      <ProgressBar now={count} />
+        <ProgressBar now={count} />
       </div>
     </div>
   );
