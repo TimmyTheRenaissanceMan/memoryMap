@@ -4,11 +4,13 @@ import "./App.css";
 import Header from "./components/partials/header";
 import Home from "./routes/Home";
 import List from "./routes/List";
+import Loading from "./routes/Loading";
 
 function App() {
   /* Listen to the window size => pass width to the header => 
   => adjust nav bar design accordingly                      */
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [loaded, setLoaded] = useState(false);
 
   const resizeFunction = () => {
     setWindowWidth(() => {
@@ -26,6 +28,7 @@ function App() {
 
   return (
     <div className="App">
+    { loaded ? "" : <Loading setLoaded={setLoaded} />}
       <Header windowWidth={windowWidth} />
       <Router>
         <Routes>

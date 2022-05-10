@@ -148,7 +148,7 @@ const MemoryMap = () => {
           position={{ lat: marker.lat, lng: marker.lng }}
           onClick={() => {
             setSelected(marker);
-            setMapCenter({ lat: marker.lat, lng: marker.lng });
+            // setMapCenter({ lat: marker.lat, lng: marker.lng });
           }}
           icon={{
             url: `marker.svg`,
