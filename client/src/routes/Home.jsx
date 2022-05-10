@@ -32,6 +32,7 @@ const MemoryMap = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
   });
+  console.log('here')
 
   /* Selected marker. When marker is clicked, "selected" holds marker data and
   renders a tooltip */
