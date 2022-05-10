@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Container, Row, Col, NavItem, Nav } from "react-bootstrap";
+import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
 import NavMenu from "./navMenu";
 import store from "../../store";
 

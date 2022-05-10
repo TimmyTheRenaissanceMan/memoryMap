@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 import mapStyles from "../components/map/mapStyles";
 import store from "../store";
+import { Button } from "react-bootstrap";
 
 const libraries = ["places"];
 const options = {
@@ -42,6 +43,13 @@ const MemoryMap = () => {
     lat: 43.6532,
     lng: -79.3832,
   });
+
+  const resetCoordinates = () => {
+    setMapCenter({
+      lat: 43.6532,
+      lng:-79.3832
+    })
+  }
 
   /* Map ref is used to check if the map is ready/loaded. Can also be used for 
   map view manipulations */
@@ -194,6 +202,7 @@ const MemoryMap = () => {
           </div>
         </InfoWindow>
       ) : null}
+      <Button onClick={resetCoordinates} className="returnHomeBtn menuButton">Return Home</Button>
     </GoogleMap>
   );
 };

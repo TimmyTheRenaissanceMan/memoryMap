@@ -13,10 +13,9 @@ export default function Loading(props) {
         setCount((prev) => ++prev);
       } else {
         setTimeout(() => {
-          setCount(100);
+            props.setLoaded(true);
+            setCount(100);
         }, 1000);
-
-        props.setLoaded(true);
       }
     }, 50);
   };
