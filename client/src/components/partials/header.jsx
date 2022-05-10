@@ -26,6 +26,12 @@ function Header(props) {
     setWindowWidth(props.windowWidth);
   }
 
+  store.subscribe(()=> {
+    if(store.getState().sideNavState === "open" && sideNavClass !== "sidenavOpen"){
+      openNav();
+    }
+  })
+
   useEffect(() => {
     window.innerWidth > 795 ? setScreenType("full") : setScreenType("mobile");
   }, []);
@@ -45,6 +51,9 @@ function Header(props) {
 
   /* Set the width of the side navigation to 0 and the left margin of the page content to 0*/
   function closeNav() {
+    store.dispatch({
+      type: "closeSideNav"
+    });
     setSideNavClass("sidenavClose");
     setTimeout(() => {
       document.getElementById("mySidenav").style.width = "0";

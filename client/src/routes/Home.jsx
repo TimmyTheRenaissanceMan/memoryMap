@@ -32,7 +32,6 @@ const MemoryMap = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
   });
-  console.log('here')
 
   /* Selected marker. When marker is clicked, "selected" holds marker data and
   renders a tooltip */
@@ -62,7 +61,7 @@ const MemoryMap = () => {
     }
   });
 
-  // Store new marker on map click
+  // Store new marker on map click && open side nav bar
   const handleMapClick = (event) => {
     store.dispatch({
       type: "saveMarker",
@@ -70,6 +69,9 @@ const MemoryMap = () => {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       },
+    });
+    store.dispatch({
+      type: "openSideNav"
     });
     setNewMarker({ lat: event.latLng.lat(), lng: event.latLng.lng() });
   };

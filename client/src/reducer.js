@@ -4,8 +4,8 @@ export default function reducer(
       lat: 0,
       lng: 0,
     },
-    markerData:{
-    }
+    markerData: {},
+    sideNavState: "",
   },
   action
 ) {
@@ -23,6 +23,17 @@ export default function reducer(
         ...state,
         markerData: action.payload,
       };
+    case "openSideNav":
+      return {
+        ...state,
+        sideNavState: "open",
+      };
+    case "closeSideNav":
+      return {
+        ...state,
+        sideNavState: "close",
+      };
+
     default:
       return state;
   }
