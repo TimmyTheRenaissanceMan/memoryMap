@@ -9,7 +9,7 @@ export default function Loading(props) {
     let progress = 0;
     setInterval(function() {
         progress ++;
-         if(progress !== 100) {
+         if(count !== 100) {
             setCount(prev => ++prev);
          } else {
              props.setLoaded(true);
