@@ -45,6 +45,7 @@ const MemoryMap = () => {
   });
 
   const resetCoordinates = () => {
+    setZoom(12);
     setMapCenter({
       lat: 43.6532,
       lng:-79.3832
@@ -71,6 +72,7 @@ const MemoryMap = () => {
 
   // Store new marker on map click && open side nav bar
   const handleMapClick = (event) => {
+    setSelected(null);
     store.dispatch({
       type: "saveMarker",
       payload: {

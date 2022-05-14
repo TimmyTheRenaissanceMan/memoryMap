@@ -125,7 +125,7 @@ const MapHeader = (props) => {
       </Navbar>
 
       <Row id="mySidenav" className="sidenav">
-        <Col md="6" lg="7" xl="8" xs="0"></Col>
+        <Col md="6" lg="7" xl="8" xs="0" className="leftSidenav"></Col>
         <Col md="6" lg="5" xl="4" xs="12" className="sidenavContent">
           <Container>
             <NavMenu closeNav={props.closeNav} />

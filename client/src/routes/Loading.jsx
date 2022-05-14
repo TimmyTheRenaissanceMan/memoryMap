@@ -26,15 +26,16 @@ export default function Loading(props) {
 
   return (
     <div className="loadingScreen">
-      <div className="text-center">
+      <div className="text-center" style={{position: "relative", height: "100%"}}>
         <img
           className="logoWhite text-center"
           src="./whiteLogo.png"
           alt="logo"
         />
+         <ProgressBar now={count} />
       </div>
-      <div>
-        <ProgressBar now={count} />
+      <div style={{height: "100%", position: "relative"}}>
+       
       </div>
     </div>
   );
