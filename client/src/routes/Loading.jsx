@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 export default function Loading(props) {
