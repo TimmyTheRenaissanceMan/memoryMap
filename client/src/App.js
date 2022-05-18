@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/partials/header";
@@ -26,9 +26,15 @@ function App() {
     true
   );
 
+  useEffect(() => {
+    if (window.location.pathname === "/"){
+      setLoaded(true);
+    }
+  }, [])
+
   return (
     <div className="App">
-    { (loaded && window.location.pathname === "/") ? "" : <Loading setLoaded={setLoaded} />}
+    { loaded ? "" : <Loading setLoaded={setLoaded} />}
       <Header windowWidth={windowWidth} />
       <Router>
         <Routes>
