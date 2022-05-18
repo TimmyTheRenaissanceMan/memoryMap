@@ -26,15 +26,17 @@ function App() {
     true
   );
 
-  useEffect(() => {
-    if (window.location.pathname === "/"){
-      setLoaded(true);
-    }
-  }, [])
-
   return (
     <div className="App">
-    { window.location.pathname === "/" ? (loaded ? "" : <Loading setLoaded={setLoaded} />) : "" }
+      {window.location.pathname === "/" ? (
+        loaded ? (
+          ""
+        ) : (
+          <Loading setLoaded={setLoaded} />
+        )
+      ) : (
+        ""
+      )}
       <Header windowWidth={windowWidth} />
       <Router>
         <Routes>
