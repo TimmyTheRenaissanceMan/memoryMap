@@ -15,9 +15,9 @@ export default function Loading(props) {
         setTimeout(() => {
             props.setLoaded(true);
             setCount(100);
-        }, 1000);
+        }, 500);
       }
-    }, 50);
+    }, 25);
   };
 
   useEffect(() => {
