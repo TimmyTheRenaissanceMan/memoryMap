@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div className="App">
-    { loaded ? "" : <Loading setLoaded={setLoaded} />}
+    { (loaded && window.location.pathname === "/") ? "" : <Loading setLoaded={setLoaded} />}
       <Header windowWidth={windowWidth} />
       <Router>
         <Routes>
